@@ -19,6 +19,10 @@ object GlobalConfig {
         const val URL_AUTHOR_REQUEST = ""
     }
 
+    object Preference {
+        const val KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN"
+    }
+
     object DB {
         const val DATABASE_NAME = "MiniGoodReadsDB"
         const val DATABASE_VERSION = 1

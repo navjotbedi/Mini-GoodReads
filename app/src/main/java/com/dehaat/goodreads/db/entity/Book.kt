@@ -1,9 +1,7 @@
 package com.dehaat.goodreads.db.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.dehaat.goodreads.db.converter.DateConverter
 import com.dehaat.goodreads.utils.GlobalConfig
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_DESCRIPTION
@@ -21,13 +19,14 @@ import java.util.*
     childColumns = [COLUMN_AUTHOR_ID],
     onDelete = ForeignKey.CASCADE
 )
+@TypeConverters(DateConverter::class)
 class Book(
     @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = true) val id: Int,
 
     @ColumnInfo(name = COLUMN_AUTHOR_ID) val userId: Int,
     @ColumnInfo(name = COLUMN_TITLE) val title: String,
     @ColumnInfo(name = COLUMN_PUBLISHER) val publisherName: String,
-    @ColumnInfo(name = COLUMN_PUBLISHED_DATE) val publishedDate: Date,
+    @ColumnInfo(name = COLUMN_PUBLISHED_DATE) val publishedDate: Date?,
     @ColumnInfo(name = COLUMN_DESCRIPTION) val description: String,
     @ColumnInfo(name = COLUMN_PRICE) val price: String
 )
