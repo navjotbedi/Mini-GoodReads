@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/textViewBookTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Title"
-        app:layout_constraintBottom_toTopOf="@+id/textViewBookDescription"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="viewModel"
+            type="com.dehaat.goodreads.viewmodels.BookViewModel"/>
+    </data>
 
-    <TextView
-        android:id="@+id/textViewBookDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Description"
-        app:layout_constraintBottom_toTopOf="@+id/textViewBookPublisher"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBookTitle"
-        app:layout_constraintVertical_chainStyle="packed" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/textViewBookPublisher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Publisher"
-        app:layout_constraintBottom_toTopOf="@+id/textViewBookPrice"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBookDescription"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/textViewBookTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.title}"
+            app:layout_constraintBottom_toTopOf="@+id/textViewBookDescription"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/textViewBookPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Price"
-        app:layout_constraintBottom_toTopOf="@+id/textViewBookPublishedDate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBookPublisher"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/textViewBookDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.description}"
+            app:layout_constraintBottom_toTopOf="@+id/textViewBookPublisher"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookTitle"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/textViewBookPublishedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Published Date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBookPrice"
-        app:layout_constraintVertical_chainStyle="packed" />
+        <TextView
+            android:id="@+id/textViewBookPublisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.publisher}"
+            app:layout_constraintBottom_toTopOf="@+id/textViewBookPrice"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookDescription"
+            app:layout_constraintVertical_chainStyle="packed" />
 
+        <TextView
+            android:id="@+id/textViewBookPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.price}"
+            app:layout_constraintBottom_toTopOf="@+id/textViewBookPublishedDate"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookPublisher"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textViewBookPublishedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.publishedDate}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookPrice"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

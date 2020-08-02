@@ -21,7 +21,7 @@ import java.util.*
 )
 @TypeConverters(DateConverter::class)
 class Book(
-    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = true) val id: Long,
 
     @ColumnInfo(name = COLUMN_AUTHOR_ID) val userId: Int,
     @ColumnInfo(name = COLUMN_TITLE) val title: String,

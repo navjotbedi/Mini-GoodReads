@@ -1,14 +1,14 @@
 package com.dehaat.goodreads.viewmodels
 
 import androidx.lifecycle.ViewModel
-import java.util.*
+import com.dehaat.goodreads.db.entity.Book
 
-class BookViewModel : ViewModel() {
+class BookViewModel constructor(book: Book) : ViewModel() {
 
-    private var title: String? = null
-    private var publisher: String? = null
-    private var publishedDate: Date? = null
-    private var description: String? = null
-    private var price: Int? = 0
+    val title = book.title
+    val publisher = book.publisherName
+    val publishedDate = book.publishedDate.toString()
+    val description = book.description
+    val price = book.price
 
 }
