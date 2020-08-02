@@ -12,7 +12,8 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,7 +23,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
     @Provides
@@ -31,7 +32,7 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(context: Context): OkHttpClient {
+    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         val builder = OkHttpClient().newBuilder()
         builder.addNetworkInterceptor(RequestTokenInterceptor())
         context.externalCacheDir?.let {
