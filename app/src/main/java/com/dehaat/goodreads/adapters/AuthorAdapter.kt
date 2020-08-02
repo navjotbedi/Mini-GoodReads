@@ -46,7 +46,7 @@ class AuthorAdapter : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCa
 
         fun bind(author: Author) {
             with(binding) {
-                viewModel = AuthorViewModel(author)
+                viewModel = author
                 executePendingBindings()
             }
         }

@@ -21,17 +21,20 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
 
     @Provides
+    @Singleton
     fun provideRestService(okHttpClient: OkHttpClient, moshi: Moshi): RestApi {
         return configureRetrofit(okHttpClient, moshi).create(RestApi::class.java)
     }
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         val builder = OkHttpClient().newBuilder()
         builder.addNetworkInterceptor(RequestTokenInterceptor())
@@ -49,6 +52,7 @@ object NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder()
             .add(KotlinJsonAdapterFactory())

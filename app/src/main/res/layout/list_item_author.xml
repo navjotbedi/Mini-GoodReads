@@ -8,12 +8,12 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="viewModel"
-            type="com.dehaat.goodreads.viewmodels.AuthorViewModel"/>
+            type="com.dehaat.goodreads.db.entity.Author"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="@{clickListener}"
         android:padding="10dp">
 
