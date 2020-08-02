@@ -3,9 +3,10 @@ package com.dehaat.goodreads.manager
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.Preference.KEY_AUTH_TOKEN
+import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 
-class PreferenceManager @Inject constructor(context: Context) {
+class PreferenceManager @Inject constructor(@ActivityContext private val context: Context) {
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 

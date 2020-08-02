@@ -7,14 +7,15 @@
         android:orientation="horizontal">
 
         <fragment
-            android:id="@+id/titles"
+            android:id="@+id/authorFragment"
             class="com.dehaat.goodreads.screens.AuthorFragment"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <FrameLayout
-            android:id="@+id/details"
+        <fragment
+            android:id="@+id/bookFragment"
+            class="com.dehaat.goodreads.screens.BookFragment"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="1" />

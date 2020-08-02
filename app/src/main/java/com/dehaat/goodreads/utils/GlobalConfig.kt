@@ -13,10 +13,10 @@ object GlobalConfig {
     }
 
     object Endpoint {
-        const val URL_BASE = ""
+        const val URL_BASE = "https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io"
 
-        const val URL_LOGIN_REQUEST = ""
-        const val URL_AUTHOR_REQUEST = ""
+        const val URL_LOGIN_REQUEST = "/login"
+        const val URL_AUTHOR_REQUEST = "/books"
     }
 
     object Preference {
