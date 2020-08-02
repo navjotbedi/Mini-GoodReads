@@ -8,12 +8,12 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="viewModel"
-            type="com.dehaat.goodreads.viewmodels.BookViewModel"/>
+            type="com.dehaat.goodreads.db.entity.Book"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="10dp">
 
         <TextView
@@ -40,7 +40,7 @@
             android:id="@+id/textViewBookPublisher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.publisher}"
+            android:text="@{viewModel.publisherName}"
             app:layout_constraintBottom_toTopOf="@+id/textViewBookPrice"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBookDescription"
@@ -60,7 +60,7 @@
             android:id="@+id/textViewBookPublishedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.publishedDate}"
+            android:text="@{viewModel.publishedDate.toString()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBookPrice"

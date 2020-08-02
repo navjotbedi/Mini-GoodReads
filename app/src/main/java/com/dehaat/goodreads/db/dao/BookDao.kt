@@ -23,7 +23,7 @@ interface BookDao {
      * @return All the books in the table.
      */
     @Query("SELECT * FROM $TABLE_NAME WHERE $COLUMN_AUTHOR_ID = :authorId")
-    fun getAll(authorId: Int): List<Book>
+    fun getAll(authorId: Long): List<Book>
 
     /**
      *  Insert the books in the table
