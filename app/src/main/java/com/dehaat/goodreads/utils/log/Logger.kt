@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
+package com.dehaat.goodreads.utils.log
+
 import android.content.Context
 import com.dehaat.goodreads.utils.GlobalConfig
 import com.dehaat.goodreads.utils.GlobalConfig.Core.RELEASE_LOG_TAG
-import com.xad.sdk.locationsdk.utils.log.ReleaseTree
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class Logger @Inject constructor(private val context: Context) {
 
     init {

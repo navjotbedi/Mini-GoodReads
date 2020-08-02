@@ -1,7 +1,7 @@
-package com.xad.sdk.locationsdk.utils.log
+package com.dehaat.goodreads.utils.log
 
 import android.util.Log
-import com.xad.sdk.locationsdk.GlobalConfig
+import com.dehaat.goodreads.utils.GlobalConfig
 import timber.log.Timber
 
 internal class ReleaseTree : Timber.Tree() {
