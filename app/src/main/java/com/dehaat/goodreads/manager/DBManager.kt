@@ -26,9 +26,18 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
         return Single.just(rawResponse)
             .map {
                 coreDatabase.clearAllTables()
-                val response = it.processResponse()
-                authorDao.insertAll(response.first)
-                bookDao.insertAll(response.second)
+                val bookList = mutableListOf<Book>()
+                for(authorResponse in it.authorsResponseList){
+                    val authorId = authorDao.insert(Author(authorResponse.name, authorResponse.bio))
+
+                    for(bookResponse in authorResponse.booksResponseList) {
+                        bookList.add(Book(authorId, bookResponse.title, bookResponse.publisher, null, bookResponse.description, bookResponse.price))
+                    }
+                }
+                bookList
+            }
+            .map {
+                bookDao.insertAll(it)
             }
     }
 

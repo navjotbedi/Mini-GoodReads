@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="clickListener"
-            type="com.dehaat.goodreads.adapters.AuthorAdapter.OnClickListener"/>
+            type="com.dehaat.goodreads.adapters.AuthorAdapter.OnClickListener" />
+
         <variable
             name="viewModel"
-            type="com.dehaat.goodreads.db.entity.Author"/>
+            type="com.dehaat.goodreads.db.entity.Author" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.name}"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/textViewAuthorBio"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,6 +34,7 @@
             android:id="@+id/textViewAuthorBio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:text="@{viewModel.bio}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
