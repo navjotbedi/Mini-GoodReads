@@ -30,4 +30,5 @@ interface AuthorDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(authors: List<Author>)
 
+
 }

@@ -1,11 +1,13 @@
 package com.dehaat.goodreads.screens
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.AuthorAdapter
 import com.dehaat.goodreads.databinding.FragmentAuthorBinding
 import com.dehaat.goodreads.viewmodels.AuthorViewModel
@@ -13,26 +15,29 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 @AndroidEntryPoint
-class AuthorFragment : Fragment() {
+class AuthorFragment : Fragment(R.layout.fragment_author) {
 
     private lateinit var binding: FragmentAuthorBinding
     private val viewModel: AuthorViewModel by viewModels()
+    private var listener: AuthorAdapter.OnClickListener? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAuthorBinding.inflate(inflater, container, false)
-        context ?: return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentAuthorBinding.bind(view)
 
-        val adapter = AuthorAdapter()
+        val adapter = AuthorAdapter(listener)
         binding.authorList.adapter = adapter
         subscribeUi(adapter)
+    }
 
-        return binding.root
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is AuthorAdapter.OnClickListener){
+            listener = context
+        }
     }
 
     private fun subscribeUi(adapter: AuthorAdapter) {
