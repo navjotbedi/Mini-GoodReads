@@ -1,6 +1,7 @@
 package com.dehaat.goodreads.di
 
 import android.content.Context
+import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.network.RestApi
 import com.dehaat.goodreads.network.interceptors.RequestTokenInterceptor
 import com.dehaat.goodreads.utils.GlobalConfig.Core.CACHE_NAME
@@ -35,9 +36,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
+    fun provideOkHttpClient(@ApplicationContext context: Context, preferenceManager: PreferenceManager): OkHttpClient {
         val builder = OkHttpClient().newBuilder()
-        builder.addNetworkInterceptor(RequestTokenInterceptor())
+        builder.addNetworkInterceptor(RequestTokenInterceptor(preferenceManager))
         context.externalCacheDir?.let {
             builder.cache(Cache(File(it.absolutePath + "/" + CACHE_NAME), CACHE_SIZE))
         }

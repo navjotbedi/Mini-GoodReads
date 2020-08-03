@@ -12,7 +12,9 @@ import com.dehaat.goodreads.adapters.BookAdapter
 import com.dehaat.goodreads.databinding.FragmentBookBinding
 import com.dehaat.goodreads.viewmodels.BookViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 @AndroidEntryPoint
 class BookFragment : Fragment() {
@@ -38,6 +40,8 @@ class BookFragment : Fragment() {
 
     private fun subscribeUi(adapter: BookAdapter) {
         viewModel.books(args.authorId)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onError = {},
                 onSuccess = { adapter.submitList(it) }

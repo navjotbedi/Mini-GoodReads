@@ -29,6 +29,6 @@ interface BookDao {
      *  Insert the books in the table
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(trigger: List<Book>)
+    fun insertAll(books: List<Book>)
 
 }
