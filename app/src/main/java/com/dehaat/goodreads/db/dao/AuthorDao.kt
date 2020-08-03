@@ -28,7 +28,6 @@ interface AuthorDao {
      *  Insert the Authors in the table
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(authors: List<Author>)
-
+    fun insert(author: Author): Long
 
 }

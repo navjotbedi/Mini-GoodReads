@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.BookAdapter
 import com.dehaat.goodreads.databinding.FragmentAuthorBinding
@@ -27,6 +28,11 @@ class BookFragment : Fragment(R.layout.fragment_book) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookBinding.bind(view)
 
+        initUI()
+    }
+
+    private fun initUI(){
+        binding.bookList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         val adapter = BookAdapter()
         binding.bookList.adapter = adapter
         arguments?.let {

@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ActivityLoginBinding
+import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
@@ -16,10 +18,11 @@ class LoginActivity : AppCompatActivity() {
     private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
+    @Inject lateinit var preferenceManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!loginViewModel.isLoggedIn()) {
+        if (loginViewModel.isLoggedIn()) {
             val intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -35,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
                     if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
                         if (binding.editTextPassword.text.isNotBlank()) {
                             loginViewModel.performLogin()
+                            preferenceManager.authToken = "aaaa"
                             startActivity(Intent(binding.root.context, MainActivity::class.java))
                         } else binding.editTextPassword.error = "Empty Password"
                     } else binding.editTextEmail.error = "Invalid Email"
