@@ -15,16 +15,17 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
 
     private val bookDao: BookDao
     private val authorDao: AuthorDao
+    private val coreDatabase: CoreDatabase = CoreDatabase.getInstance(context)
 
     init {
-        val coreDatabase = CoreDatabase.getInstance(context)
         bookDao = coreDatabase.bookDao()
         authorDao = coreDatabase.authorDao()
     }
 
-    fun fillDb(response : BooksResponse): Single<Unit> {
-        return Single.just(response)
+    fun fillDb(rawResponse : BooksResponse): Single<Unit> {
+        return Single.just(rawResponse)
             .map {
+                coreDatabase.clearAllTables()
                 val response = it.processResponse()
                 authorDao.insertAll(response.first)
                 bookDao.insertAll(response.second)

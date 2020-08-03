@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <fragment
+        android:id="@+id/authorFragment"
+        android:name="com.dehaat.goodreads.screens.AuthorFragment"
+        android:layout_width="0px"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_weight="1" />
 
-        <fragment
-            android:id="@+id/authorFragment"
-            class="com.dehaat.goodreads.screens.AuthorFragment"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.dehaat.goodreads.screens.BookFragment"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-        <fragment
-            android:id="@+id/bookFragment"
-            class="com.dehaat.goodreads.screens.BookFragment"
-            android:layout_width="0px"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

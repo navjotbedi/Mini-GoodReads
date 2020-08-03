@@ -3,17 +3,19 @@ package com.dehaat.goodreads.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemAuthorBinding
 import com.dehaat.goodreads.db.entity.Author
-import com.dehaat.goodreads.screens.AuthorFragmentDirections
-import com.dehaat.goodreads.viewmodels.AuthorViewModel
 
-class AuthorAdapter : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
+class AuthorAdapter(private val listener: OnClickListener?) :
+    ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
+
+    interface OnClickListener {
+        fun onAuthorClicked(authorId: Long)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -22,7 +24,7 @@ class AuthorAdapter : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCa
                 R.layout.list_item_author,
                 parent,
                 false
-            )
+            ), listener
         )
     }
 
@@ -31,16 +33,16 @@ class AuthorAdapter : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCa
     }
 
     class ViewHolder(
-        private val binding: ListItemAuthorBinding
+        private val binding: ListItemAuthorBinding,
+        private val listener: OnClickListener?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.setClickListener { view ->
-                binding.viewModel?.id?.let { authorId ->
-                    val direction =
-                        AuthorFragmentDirections.actionAuthorFragmentToBookFragment(authorId)
-                    view.findNavController().navigate(direction)
+            binding.clickListener = object : OnClickListener {
+                override fun onAuthorClicked(authorId: Long) {
+                    listener?.onAuthorClicked(1)
                 }
+
             }
         }
 
