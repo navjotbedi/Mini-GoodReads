@@ -14,7 +14,7 @@ object DateConverter {
 
     @TypeConverter
     @JvmStatic
-    fun fromDeliveryType(date: Date): String {
+    fun fromDeliveryType(date: Date?): String {
         return "deliveryType.value"
     }
 

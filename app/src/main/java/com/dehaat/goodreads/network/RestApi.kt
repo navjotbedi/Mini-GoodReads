@@ -16,6 +16,7 @@
 
 package com.dehaat.goodreads.network
 
+import com.dehaat.goodreads.network.response.BooksResponse
 import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_AUTHOR_REQUEST
 import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_LOGIN_REQUEST
 import io.reactivex.rxjava3.core.Single
@@ -28,6 +29,6 @@ interface RestApi {
     fun login(): Single<Unit>
 
     @GET(URL_AUTHOR_REQUEST)
-    fun getBooks(): Single<Unit>
+    fun getBooks(): Single<BooksResponse>
 
 }

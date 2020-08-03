@@ -21,12 +21,12 @@ import java.util.*
 )
 @TypeConverters(DateConverter::class)
 class Book(
-    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = true) val id: Long,
-
-    @ColumnInfo(name = COLUMN_AUTHOR_ID) val userId: Int,
+    @ColumnInfo(name = COLUMN_AUTHOR_ID) val authorId: Long,
     @ColumnInfo(name = COLUMN_TITLE) val title: String,
     @ColumnInfo(name = COLUMN_PUBLISHER) val publisherName: String,
     @ColumnInfo(name = COLUMN_PUBLISHED_DATE) val publishedDate: Date?,
     @ColumnInfo(name = COLUMN_DESCRIPTION) val description: String,
     @ColumnInfo(name = COLUMN_PRICE) val price: String
-)
+) {
+    @ColumnInfo(name = COLUMN_ID) @PrimaryKey(autoGenerate = true) var id: Long = 0
+}

@@ -6,6 +6,7 @@ import com.dehaat.goodreads.db.dao.AuthorDao
 import com.dehaat.goodreads.db.dao.BookDao
 import com.dehaat.goodreads.db.entity.Author
 import com.dehaat.goodreads.db.entity.Book
+import com.dehaat.goodreads.network.response.BooksResponse
 import dagger.hilt.android.qualifiers.ActivityContext
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
@@ -19,6 +20,15 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
         val coreDatabase = CoreDatabase.getInstance(context)
         bookDao = coreDatabase.bookDao()
         authorDao = coreDatabase.authorDao()
+    }
+
+    fun fillDb(response : BooksResponse): Single<Unit> {
+        return Single.just(response)
+            .map {
+                val response = it.processResponse()
+                authorDao.insertAll(response.first)
+                bookDao.insertAll(response.second)
+            }
     }
 
     fun getAuthors(): Single<List<Author>> {

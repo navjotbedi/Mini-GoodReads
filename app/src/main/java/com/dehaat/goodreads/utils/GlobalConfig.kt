@@ -12,6 +12,10 @@ object GlobalConfig {
         const val CACHE_SIZE: Long = 60 * 1024 * 1024
     }
 
+    object Network {
+        const val HEADER_AUTH_TOKEN = "HEADER_AUTH_TOKEN"
+    }
+
     object Endpoint {
         const val URL_BASE = "https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io"
 
