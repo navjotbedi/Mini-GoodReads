@@ -1,10 +1,9 @@
 package com.dehaat.goodreads.viewmodels
 
-import androidx.lifecycle.ViewModel
 import com.dehaat.goodreads.db.entity.Book
 import com.dehaat.goodreads.utils.Utils
 
-class BookViewModel(var book: Book, val utils: Utils) : ViewModel() {
+class BookViewModel(var book: Book, val utils: Utils) : ItemViewModel() {
 
     val price: String
         get() = "${book.price} INR"

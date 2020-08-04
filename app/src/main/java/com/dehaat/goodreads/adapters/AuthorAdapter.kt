@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemAuthorBinding
-import com.dehaat.goodreads.db.entity.Author
 import com.dehaat.goodreads.viewmodels.AuthorViewModel
 
 /**
  * Adapter to control list of authors
  */
-class AuthorAdapter(private val listener: OnClickListener?, private val dualMode: Boolean) : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
+class AuthorAdapter(private val listener: OnClickListener?, private val dualMode: Boolean) : ListAdapter<AuthorViewModel, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
 
     private var checkedPosition = -1
 
@@ -43,6 +42,7 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
                     binding.textViewAuthorBio.maxLines = Int.MAX_VALUE
                     binding.textViewAuthorBio.text = binding.viewModel?.author?.bio
                     binding.buttonReadMore.visibility = View.INVISIBLE
+                    getItem(adapterPosition).isReadMoreVisible = false
                 }
             }
 
@@ -61,13 +61,13 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
             }
         }
 
-        fun bind(author: Author, selected: Boolean) {
+        fun bind(authorViewModel: AuthorViewModel, selected: Boolean) {
             with(binding) {
-                viewModel = AuthorViewModel(author)
+                viewModel = authorViewModel
                 rootView.setBackgroundResource(if (selected) R.color.colorLightGrey else R.color.colorWhite)
                 executePendingBindings()
                 binding.textViewAuthorBio.post {
-                    binding.buttonReadMore.visibility = if (binding.textViewAuthorBio.lineCount > 3) View.VISIBLE else View.INVISIBLE
+                    binding.buttonReadMore.visibility = if (binding.textViewAuthorBio.lineCount > 3 && authorViewModel.isReadMoreVisible) View.VISIBLE else View.INVISIBLE
                 }
             }
         }
@@ -75,13 +75,13 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
     }
 }
 
-private class AuthorDiffCallback : DiffUtil.ItemCallback<Author>() {
+private class AuthorDiffCallback : DiffUtil.ItemCallback<AuthorViewModel>() {
 
-    override fun areItemsTheSame(oldItem: Author, newItem: Author): Boolean {
-        return oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: AuthorViewModel, newItem: AuthorViewModel): Boolean {
+        return oldItem.author.id == newItem.author.id
     }
 
-    override fun areContentsTheSame(oldItem: Author, newItem: Author): Boolean {
-        return oldItem == newItem
+    override fun areContentsTheSame(oldItem: AuthorViewModel, newItem: AuthorViewModel): Boolean {
+        return oldItem.author == newItem.author
     }
 }

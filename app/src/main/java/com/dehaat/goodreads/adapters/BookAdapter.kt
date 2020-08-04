@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemBookBinding
-import com.dehaat.goodreads.db.entity.Book
-import com.dehaat.goodreads.utils.Utils
 import com.dehaat.goodreads.viewmodels.BookViewModel
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
@@ -19,9 +17,7 @@ import javax.inject.Inject
  * Adapter to control list of books
  */
 @FragmentScoped
-class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()) {
-
-    @Inject lateinit var utils: Utils
+class BookAdapter @Inject constructor() : ListAdapter<BookViewModel, BookAdapter.ViewHolder>(BookDiffCallback()) {
 
     interface OnClickReadMore {
         fun onReadMoreClicked()
@@ -43,16 +39,17 @@ class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHold
                     binding.textViewBookDescription.maxLines = Int.MAX_VALUE
                     binding.textViewBookDescription.text = binding.viewModel?.description
                     binding.buttonReadMore.visibility = View.INVISIBLE
+                    getItem(adapterPosition).isReadMoreVisible = false
                 }
             }
         }
 
-        fun bind(book: Book) {
+        fun bind(bookViewModel: BookViewModel) {
             with(binding) {
-                viewModel = BookViewModel(book, utils)
+                viewModel = bookViewModel
                 executePendingBindings()
                 binding.textViewBookDescription.post {
-                    binding.buttonReadMore.visibility = if(binding.textViewBookDescription.lineCount > 3) View.VISIBLE else View.INVISIBLE
+                    binding.buttonReadMore.visibility = if (binding.textViewBookDescription.lineCount > 3 && bookViewModel.isReadMoreVisible) View.VISIBLE else View.INVISIBLE
                 }
             }
         }
@@ -60,13 +57,13 @@ class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHold
     }
 }
 
-private class BookDiffCallback : DiffUtil.ItemCallback<Book>() {
+private class BookDiffCallback : DiffUtil.ItemCallback<BookViewModel>() {
 
-    override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: BookViewModel, newItem: BookViewModel): Boolean {
+        return oldItem.book.id == newItem.book.id
     }
 
-    override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: BookViewModel, newItem: BookViewModel): Boolean {
+        return oldItem.book.id == newItem.book.id
     }
 }
