@@ -1,6 +1,7 @@
 package com.dehaat.goodreads.viewmodels
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.network.RestApi
@@ -11,7 +12,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class LoginViewModel @ViewModelInject constructor(private val preferenceManager: PreferenceManager, private val restApi: RestApi) : ViewModel() {
 
-    var enableLogin: Boolean = false
+    val enableLogin: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 
     fun isLoggedIn(): Boolean {
         return preferenceManager.isLoggedIn

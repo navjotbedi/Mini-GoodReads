@@ -11,13 +11,13 @@
         android:name="com.dehaat.goodreads.screens.AuthorFragment"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="0.8" />
 
     <fragment
         android:id="@+id/bookFragment"
         android:name="com.dehaat.goodreads.screens.BookFragment"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1.2" />
 
 </LinearLayout>

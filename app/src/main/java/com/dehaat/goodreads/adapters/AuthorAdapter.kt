@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemAuthorBinding
 import com.dehaat.goodreads.db.entity.Author
+import com.dehaat.goodreads.viewmodels.AuthorViewModel
 
 class AuthorAdapter(private val listener: OnClickListener?) : ListAdapter<Author, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
 
@@ -36,7 +37,7 @@ class AuthorAdapter(private val listener: OnClickListener?) : ListAdapter<Author
 
         fun bind(author: Author) {
             with(binding) {
-                viewModel?.author = author
+                viewModel = AuthorViewModel(author)
 //                ReadMoreOption.addReadMoreTo(binding.textViewAuthorBio, author.bio)
                 executePendingBindings()
             }

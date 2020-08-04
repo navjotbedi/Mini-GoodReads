@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemBookBinding
 import com.dehaat.goodreads.db.entity.Book
+import com.dehaat.goodreads.viewmodels.BookViewModel
 
 class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()) {
 
@@ -24,7 +25,7 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()
 
         fun bind(book: Book) {
             with(binding) {
-                viewModel?.book = book
+                viewModel = BookViewModel(book)
                 executePendingBindings()
             }
         }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ActivityLoginBinding
 import com.dehaat.goodreads.manager.PreferenceManager
@@ -22,12 +23,12 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     }
 
     private lateinit var binding: ActivityLoginBinding
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
     @Inject lateinit var preferenceManager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (loginViewModel.isLoggedIn()) {
+        if (viewModel.isLoggedIn()) {
             val intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
@@ -38,14 +39,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        binding = ActivityLoginBinding.bind(findViewById(android.R.id.content))
+        binding = ActivityLoginBinding.bind(findViewById(R.id.root))
         attachTextWatcher()
         attachCallback()
     }
@@ -54,8 +48,8 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         binding.callback = object : Callback {
             override fun login() {
                 if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
-                    if (binding.editTextPassword.text.trim() == VALID_PASSWORD) {
-                        loginViewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString()).subscribeBy(onError = {}, onSuccess = {
+                    if (binding.editTextPassword.text.toString() == VALID_PASSWORD) {
+                        viewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString()).subscribeBy(onError = {}, onSuccess = {
                             startActivity(Intent(binding.root.context, MainActivity::class.java))
                         })
 
@@ -68,14 +62,18 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private fun attachTextWatcher() {
         binding.editTextEmail.addTextChangedListener(onTextChanged = { s, _, _, _ ->
             s?.let {
-                loginViewModel.enableLogin = (it.isNotBlank() && binding.editTextPassword.text.isNotBlank())
+                viewModel.enableLogin.postValue(it.isNotBlank() && binding.editTextPassword.text.isNotBlank())
             }
         })
 
         binding.editTextPassword.addTextChangedListener(onTextChanged = { s, _, _, _ ->
             s?.let {
-                loginViewModel.enableLogin = (it.isNotBlank() && binding.editTextEmail.text.isNotBlank())
+                viewModel.enableLogin.postValue(it.isNotBlank() && binding.editTextEmail.text.isNotBlank())
             }
+        })
+
+        viewModel.enableLogin.observe(this, Observer<Boolean> {
+            binding.buttonLogin.isEnabled = it
         })
     }
 
