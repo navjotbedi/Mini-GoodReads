@@ -36,7 +36,7 @@ class AuthorAdapter(private val listener: OnClickListener?) : ListAdapter<Author
 
         fun bind(author: Author) {
             with(binding) {
-                viewModel = author
+                viewModel?.author = author
 //                ReadMoreOption.addReadMoreTo(binding.textViewAuthorBio, author.bio)
                 executePendingBindings()
             }
