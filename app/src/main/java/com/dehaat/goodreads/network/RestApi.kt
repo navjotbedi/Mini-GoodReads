@@ -26,6 +26,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
+/**
+ * RESTApis containing all the APIs call signatures
+ */
 interface RestApi {
 
     @POST(URL_LOGIN_REQUEST)

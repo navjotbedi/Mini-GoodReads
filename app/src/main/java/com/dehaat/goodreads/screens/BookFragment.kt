@@ -14,10 +14,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
+/**
+ * Fragment to show the list of Books
+ */
 @AndroidEntryPoint
 class BookFragment : Fragment(R.layout.fragment_book) {
 
+    @Inject lateinit var bookAdapter: BookAdapter
     private lateinit var binding: FragmentBookBinding
     private val viewModel: BookListViewModel by viewModels()
 
@@ -30,8 +35,7 @@ class BookFragment : Fragment(R.layout.fragment_book) {
 
     private fun initUI() {
         binding.bookList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        val adapter = BookAdapter()
-        binding.bookList.adapter = adapter
+        binding.bookList.adapter = bookAdapter
         arguments?.let {
             val authorId = it.getLong(COLUMN_AUTHOR_ID)
             if (authorId > 0) subscribeUi(authorId)

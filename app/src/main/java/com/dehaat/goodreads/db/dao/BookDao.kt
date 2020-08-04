@@ -8,6 +8,9 @@ import com.dehaat.goodreads.db.entity.Book
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.TABLE_NAME
 
+/**
+ * Database operations for Book
+ */
 @Dao
 interface BookDao {
 

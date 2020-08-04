@@ -9,9 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemBookBinding
 import com.dehaat.goodreads.db.entity.Book
+import com.dehaat.goodreads.utils.Utils
 import com.dehaat.goodreads.viewmodels.BookViewModel
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()) {
+/**
+ * Adapter to control list of books
+ */
+@FragmentScoped
+class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()) {
+
+    @Inject lateinit var utils: Utils
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_item_book, parent, false))
@@ -21,11 +30,11 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val binding: ListItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ListItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(book: Book) {
             with(binding) {
-                viewModel = BookViewModel(book)
+                viewModel = BookViewModel(book, utils)
                 executePendingBindings()
             }
         }

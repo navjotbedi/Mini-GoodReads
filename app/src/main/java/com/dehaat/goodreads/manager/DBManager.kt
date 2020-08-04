@@ -11,6 +11,9 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
+/**
+ * Manager to perform database operations
+ */
 class DBManager @Inject constructor(@ActivityContext private val context: Context) {
 
     private val bookDao: BookDao
@@ -24,19 +27,19 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
 
     fun fillDb(rawResponse: BooksResponse): Single<Unit> {
         return Single.just(rawResponse).map {
-                coreDatabase.clearAllTables()
-                val bookList = mutableListOf<Book>()
-                for (authorResponse in it.authorsResponseList) {
-                    val authorId = authorDao.insert(Author(authorResponse.name, authorResponse.bio))
+            coreDatabase.clearAllTables()
+            val bookList = mutableListOf<Book>()
+            for (authorResponse in it.authorsResponseList) {
+                val authorId = authorDao.insert(Author(authorResponse.name, authorResponse.bio))
 
-                    for (bookResponse in authorResponse.booksResponseList) {
-                        bookList.add(Book(authorId, bookResponse.title, bookResponse.publisher, null, bookResponse.description, bookResponse.price))
-                    }
+                for (bookResponse in authorResponse.booksResponseList) {
+                    bookList.add(Book(authorId, bookResponse.title, bookResponse.publisher, null, bookResponse.description, bookResponse.price))
                 }
-                bookList
-            }.map {
-                bookDao.insertAll(it)
             }
+            bookList
+        }.map {
+            bookDao.insertAll(it)
+        }
     }
 
     fun getAuthors(): Single<List<Author>> {

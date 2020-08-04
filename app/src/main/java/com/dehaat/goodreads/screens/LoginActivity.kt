@@ -15,6 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import javax.inject.Inject
 
+/**
+ * Activity to perform login
+ */
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
