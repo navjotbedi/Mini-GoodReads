@@ -4,11 +4,8 @@
 
     <data>
         <variable
-            name="clickListener"
-            type="android.view.View.OnClickListener"/>
-        <variable
             name="viewModel"
-            type="com.dehaat.goodreads.db.entity.Book"/>
+            type="com.dehaat.goodreads.viewmodels.BookViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,19 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.title}"
-            app:layout_constraintBottom_toTopOf="@+id/textViewBookDescription"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/textViewBookDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.description}"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/textViewBookPublisher"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBookTitle"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
@@ -43,7 +31,7 @@
             android:text="@{viewModel.publisherName}"
             app:layout_constraintBottom_toTopOf="@+id/textViewBookPrice"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBookDescription"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookTitle"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
@@ -60,11 +48,22 @@
             android:id="@+id/textViewBookPublishedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.publishedDate.toString()}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{viewModel.publishedDate}"
+            app:layout_constraintBottom_toTopOf="@+id/textViewBookDescription"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewBookPrice"
             app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/textViewBookDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.description}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewBookPublishedDate"
+            app:layout_constraintVertical_chainStyle="packed" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

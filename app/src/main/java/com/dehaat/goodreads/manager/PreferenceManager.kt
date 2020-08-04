@@ -3,7 +3,6 @@ package com.dehaat.goodreads.manager
 import android.content.Context
 import androidx.preference.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.Preference.KEY_AUTH_TOKEN
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

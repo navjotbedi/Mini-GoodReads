@@ -30,33 +30,19 @@ import com.dehaat.goodreads.utils.GlobalConfig.DB.DATABASE_VERSION
 /**
  * Core class to access complete database
  */
-@Database(
-    entities = [
-        Author::class,
-        Book::class],
-    version = DATABASE_VERSION,
-    exportSchema = false
-)
+@Database(entities = [Author::class, Book::class], version = DATABASE_VERSION, exportSchema = false)
 abstract class CoreDatabase : RoomDatabase() {
     abstract fun authorDao(): AuthorDao
     abstract fun bookDao(): BookDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: CoreDatabase? = null
+        @Volatile private var INSTANCE: CoreDatabase? = null
 
-        fun getInstance(context: Context): CoreDatabase =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE
-                    ?: buildDatabase(context).also { INSTANCE = it }
-            }
+        fun getInstance(context: Context): CoreDatabase = INSTANCE ?: synchronized(this) {
+            INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+        }
 
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-            context.applicationContext,
-            CoreDatabase::class.java, DATABASE_NAME
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(context.applicationContext, CoreDatabase::class.java, DATABASE_NAME).fallbackToDestructiveMigration().build()
     }
 
 }

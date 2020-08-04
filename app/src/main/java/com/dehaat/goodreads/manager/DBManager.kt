@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class DBManager @Inject constructor(@ActivityContext private val context: Context){
+class DBManager @Inject constructor(@ActivityContext private val context: Context) {
 
     private val bookDao: BookDao
     private val authorDao: AuthorDao
@@ -22,21 +22,19 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
         authorDao = coreDatabase.authorDao()
     }
 
-    fun fillDb(rawResponse : BooksResponse): Single<Unit> {
-        return Single.just(rawResponse)
-            .map {
+    fun fillDb(rawResponse: BooksResponse): Single<Unit> {
+        return Single.just(rawResponse).map {
                 coreDatabase.clearAllTables()
                 val bookList = mutableListOf<Book>()
-                for(authorResponse in it.authorsResponseList){
+                for (authorResponse in it.authorsResponseList) {
                     val authorId = authorDao.insert(Author(authorResponse.name, authorResponse.bio))
 
-                    for(bookResponse in authorResponse.booksResponseList) {
+                    for (bookResponse in authorResponse.booksResponseList) {
                         bookList.add(Book(authorId, bookResponse.title, bookResponse.publisher, null, bookResponse.description, bookResponse.price))
                     }
                 }
                 bookList
-            }
-            .map {
+            }.map {
                 bookDao.insertAll(it)
             }
     }

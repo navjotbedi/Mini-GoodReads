@@ -1,7 +1,6 @@
 package com.dehaat.goodreads.screens
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,6 +10,7 @@ import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.AuthorAdapter
 import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
+import com.dehaat.goodreads.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,20 +18,15 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.OnClickListener {
 
     @Inject lateinit var preferenceManager: PreferenceManager
+    @Inject lateinit var utils: Utils
 
     override fun onAuthorClicked(authorId: Long) {
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            (supportFragmentManager.findFragmentById(R.id.bookFragment) as BookFragment).subscribeUi(
-                authorId
-            )
+        if (utils.isDualMode()) {
+            (supportFragmentManager.findFragmentById(R.id.bookFragment) as BookFragment).subscribeUi(authorId)
         } else {
             val bundle = Bundle(1).apply { putLong(COLUMN_AUTHOR_ID, authorId) }
             supportFragmentManager.commit {
-                add(
-                    R.id.frameLayout,
-                    BookFragment::class.java,
-                    bundle
-                ).addToBackStack(null)
+                add(R.id.frameLayout, BookFragment::class.java, bundle).addToBackStack(null)
             }
         }
     }

@@ -12,10 +12,7 @@ class MiniGoodReads : Application() {
     override fun onCreate() {
         super.onCreate()
         RxJavaPlugins.setErrorHandler { error: Throwable? ->
-            Log.e(
-                GlobalConfig.Core.RELEASE_LOG_TAG,
-                Log.getStackTraceString(error)
-            )
+            Log.e(GlobalConfig.Core.RELEASE_LOG_TAG, Log.getStackTraceString(error))
         }
     }
 

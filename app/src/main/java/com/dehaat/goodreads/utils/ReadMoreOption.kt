@@ -32,16 +32,10 @@ class ReadMoreOption {
                     return@Runnable
                 }
                 val lp = textView.layoutParams as MarginLayoutParams
-                val subString = text.toString().substring(
-                    textView.layout.getLineStart(0),
-                    textView.layout.getLineEnd(textLength - 1)
-                )
+                val subString = text.toString().substring(textView.layout.getLineStart(0), textView.layout.getLineEnd(textLength - 1))
                 textLengthNew = subString.length - (moreLabel.length + 4 + lp.rightMargin / 6)
 
-                val spannableStringBuilder =
-                    SpannableStringBuilder(text.subSequence(0, textLengthNew))
-                        .append("...")
-                        .append(moreLabel)
+                val spannableStringBuilder = SpannableStringBuilder(text.subSequence(0, textLengthNew)).append("...").append(moreLabel)
                 val ss = SpannableString.valueOf(spannableStringBuilder)
                 val clickableSpan: ClickableSpan = object : ClickableSpan() {
                     override fun onClick(view: View) {
@@ -54,12 +48,7 @@ class ReadMoreOption {
                         ds.color = moreLabelColor
                     }
                 }
-                ss.setSpan(
-                    clickableSpan,
-                    ss.length - moreLabel.length,
-                    ss.length,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+                ss.setSpan(clickableSpan, ss.length - moreLabel.length, ss.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
                 val layoutTransition = LayoutTransition()
                 layoutTransition.enableTransitionType(LayoutTransition.CHANGING)

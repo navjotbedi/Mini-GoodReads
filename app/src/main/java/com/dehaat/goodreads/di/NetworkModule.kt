@@ -55,18 +55,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {
-        return Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+        return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     }
 
     private fun configureRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(URL_BASE)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
-            .build()
+        return Retrofit.Builder().baseUrl(URL_BASE).addConverterFactory(MoshiConverterFactory.create(moshi)).addCallAdapterFactory(RxJava3CallAdapterFactory.create()).client(okHttpClient).build()
     }
 
 }
