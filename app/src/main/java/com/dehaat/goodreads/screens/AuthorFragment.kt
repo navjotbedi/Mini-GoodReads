@@ -56,10 +56,16 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
 
     private fun subscribeUi() {
         binding.swipeRefresh.isRefreshing = true
-        viewModel.authors.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(onError = { binding.swipeRefresh.isRefreshing = false }, onSuccess = {
-            binding.swipeRefresh.isRefreshing = false
-            (binding.authorList.adapter as AuthorAdapter).submitList(it)
-        })
+
+        viewModel.authors
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onNext = {
+                    binding.swipeRefresh.isRefreshing = false
+                    (binding.authorList.adapter as AuthorAdapter).submitList(it)
+                },
+                onError = { binding.swipeRefresh.isRefreshing = false })
     }
 
 }

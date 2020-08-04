@@ -1,6 +1,7 @@
 package com.dehaat.goodreads.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -22,6 +23,10 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
         fun onAuthorClicked(authorId: Long)
     }
 
+    interface OnClickReadMore {
+        fun onReadMoreClicked()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_item_author, parent, false))
     }
@@ -33,6 +38,14 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
     inner class ViewHolder(private val binding: ListItemAuthorBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
+            binding.readMoreClickListener = object : OnClickReadMore {
+                override fun onReadMoreClicked() {
+                    binding.textViewAuthorBio.maxLines = Int.MAX_VALUE
+                    binding.textViewAuthorBio.text = binding.viewModel?.author?.bio
+                    binding.buttonReadMore.visibility = View.INVISIBLE
+                }
+            }
+
             binding.clickListener = object : OnClickListener {
                 override fun onAuthorClicked(authorId: Long) {
                     listener?.onAuthorClicked(authorId)
@@ -52,8 +65,10 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
             with(binding) {
                 viewModel = AuthorViewModel(author)
                 rootView.setBackgroundResource(if (selected) R.color.colorLightGrey else R.color.colorWhite)
-//                ReadMoreOption.addReadMoreTo(binding.textViewAuthorBio, author.bio)
                 executePendingBindings()
+                binding.textViewAuthorBio.post {
+                    binding.buttonReadMore.visibility = if (binding.textViewAuthorBio.lineCount > 3) View.VISIBLE else View.INVISIBLE
+                }
             }
         }
 

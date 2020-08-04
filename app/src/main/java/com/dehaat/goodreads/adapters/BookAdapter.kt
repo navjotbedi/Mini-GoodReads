@@ -1,6 +1,7 @@
 package com.dehaat.goodreads.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -22,6 +23,10 @@ class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHold
 
     @Inject lateinit var utils: Utils
 
+    interface OnClickReadMore {
+        fun onReadMoreClicked()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.list_item_book, parent, false))
     }
@@ -32,10 +37,23 @@ class BookAdapter @Inject constructor() : ListAdapter<Book, BookAdapter.ViewHold
 
     inner class ViewHolder(private val binding: ListItemBookBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.readMoreClickListener = object : OnClickReadMore {
+                override fun onReadMoreClicked() {
+                    binding.textViewBookDescription.maxLines = Int.MAX_VALUE
+                    binding.textViewBookDescription.text = binding.viewModel?.description
+                    binding.buttonReadMore.visibility = View.INVISIBLE
+                }
+            }
+        }
+
         fun bind(book: Book) {
             with(binding) {
                 viewModel = BookViewModel(book, utils)
                 executePendingBindings()
+                binding.textViewBookDescription.post {
+                    binding.buttonReadMore.visibility = if(binding.textViewBookDescription.lineCount > 3) View.VISIBLE else View.INVISIBLE
+                }
             }
         }
 

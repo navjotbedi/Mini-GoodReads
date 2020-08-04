@@ -10,4 +10,5 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_view_code">View Code</string>
     <string name="menu_about_developer">About Developer</string>
+    <string name="button_read_more">Read More</string>
 </resources>

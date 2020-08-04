@@ -2,6 +2,8 @@ package com.dehaat.goodreads.screens
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+import android.view.inputmethod.EditorInfo.IME_ACTION_GO
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
@@ -32,10 +34,7 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel.isLoggedIn()) {
-            val intent = Intent(this, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            startActivity(intent)
+            nextScreen()
             return
         }
     }
@@ -50,15 +49,15 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private fun attachCallback() {
         binding.callback = object : Callback {
             override fun login() {
-                if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
-                    if (binding.editTextPassword.text.toString() == VALID_PASSWORD) {
-                        viewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString()).subscribeBy(onError = {}, onSuccess = {
-                            startActivity(Intent(binding.root.context, MainActivity::class.java))
-                        })
-
-                    } else binding.editTextPassword.error = resources.getString(R.string.error_incorrect_password)
-                } else binding.editTextEmail.error = resources.getString(R.string.error_invalid_email)
+                performLogin()
             }
+        }
+
+        binding.editTextPassword.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener if (actionId == IME_ACTION_GO && binding.buttonLogin.isEnabled) {
+                binding.buttonLogin.performClick()
+                true
+            } else false
         }
     }
 
@@ -78,6 +77,33 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
         viewModel.enableLogin.observe(this, Observer<Boolean> {
             binding.buttonLogin.isEnabled = it
         })
+    }
+
+    private fun performLogin() {
+        if (canLogin()) {
+            viewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
+                .subscribeBy(
+                    onError = {},
+                    onSuccess = { nextScreen() }
+                )
+        }
+    }
+
+    private fun canLogin(): Boolean {
+        if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
+            if (binding.editTextPassword.text.toString() == VALID_PASSWORD) {
+                return true
+            } else binding.editTextPassword.error = resources.getString(R.string.error_incorrect_password)
+        } else binding.editTextEmail.error = resources.getString(R.string.error_invalid_email)
+
+        return false
+    }
+
+    private fun nextScreen() {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
     interface Callback {
