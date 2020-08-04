@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-package com.dehaat.goodreads.network.response
+package com.dehaat.goodreads.network.utils
 
-import com.squareup.moshi.Json
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
+import java.text.SimpleDateFormat
+import java.util.*
 
-data class LoginResponse(@Json(name = "token") val token: String)
+class BackendDateAdapter {
+    @ToJson
+    fun toJson(value: Date): String = FORMATTER.format(value)
+
+    @FromJson
+    fun fromJson(value: String): Date? = FORMATTER.parse(value)
+
+    companion object {
+        private val FORMATTER = SimpleDateFormat("dd-mm-yyyy", Locale.US)
+    }
+}

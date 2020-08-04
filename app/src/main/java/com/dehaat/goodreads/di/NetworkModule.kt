@@ -1,9 +1,26 @@
+/*
+ * Copyright (C) 2020 Navjot Singh Bedi.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dehaat.goodreads.di
 
 import android.content.Context
 import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.network.RestApi
 import com.dehaat.goodreads.network.interceptors.RequestTokenInterceptor
+import com.dehaat.goodreads.network.utils.BackendDateAdapter
 import com.dehaat.goodreads.utils.GlobalConfig.Core.CACHE_NAME
 import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_BASE
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.CACHE_SIZE
@@ -55,7 +72,10 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {
-        return Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        return Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .add(BackendDateAdapter())
+            .build()
     }
 
     private fun configureRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {

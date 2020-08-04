@@ -14,27 +14,17 @@ android {
     }
 
     signingConfigs {
-        Properties properties = new Properties()
-        def storeSecret
-        if (project.rootProject.file('local.properties').exists()) {
-            properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            storeSecret = properties.getProperty("KEYSTORE_PASSWORD")
-            // TODO Add console error
-        } else {
-            storeSecret = System.getenv("KEYSTORE_PASSWORD")
-        }
-
         release {
-            storePassword storeSecret
+            storePassword 'MiniGoodReads'
             keyAlias 'MiniGoodReads'
-            keyPassword storeSecret
+            keyPassword 'MiniGoodReads'
             storeFile file('keystore/release.jks')
         }
 
         debug {
-            storePassword storeSecret
+            storePassword 'MiniGoodReads'
             keyAlias 'MiniGoodReads'
-            keyPassword storeSecret
+            keyPassword 'MiniGoodReads'
             storeFile file('keystore/debug.jks')
         }
     }
@@ -87,8 +77,8 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Dependency Injection
-    implementation "com.google.dagger:hilt-android:2.28-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 

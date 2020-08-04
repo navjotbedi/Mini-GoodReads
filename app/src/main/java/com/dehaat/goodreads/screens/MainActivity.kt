@@ -1,7 +1,22 @@
+/*
+ * Copyright (C) 2020 Navjot Singh Bedi.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dehaat.goodreads.screens
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +24,6 @@ import androidx.fragment.app.commit
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.AuthorAdapter
 import com.dehaat.goodreads.manager.PreferenceManager
-import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
 import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_CODE
 import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_DEVELOPER
 import com.dehaat.goodreads.utils.Utils
@@ -26,13 +40,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.On
     @Inject lateinit var utils: Utils
 
     override fun onAuthorClicked(authorId: Long) {
-        if (utils.isDualMode()) {
-            (supportFragmentManager.findFragmentById(R.id.bookFragment) as BookFragment).subscribeUi(authorId)
-        } else {
-            val bundle = Bundle(1).apply { putLong(COLUMN_AUTHOR_ID, authorId) }
-            supportFragmentManager.commit {
-                add(R.id.frameLayout, BookFragment::class.java, bundle).addToBackStack(null)
-            }
+        supportFragmentManager.commit {
+            add(R.id.frameLayout, BookFragment::class.java, null).addToBackStack(null)
         }
     }
 

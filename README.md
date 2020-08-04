@@ -20,6 +20,7 @@ Location Tracker requires [Android Studio](https://developer.android.com/studio/
 ### Todos
 
  - Impliment [Fragment Navigation] to support better UI flow
+ - Improved network error messages
 
    [Retrofit]: <https://square.github.io/retrofit/>
    [Hilt]: <https://developer.android.com/training/dependency-injection/hilt-android>

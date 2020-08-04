@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2020 Navjot Singh Bedi.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.dehaat.goodreads.adapters
 
 import android.view.LayoutInflater
@@ -10,13 +26,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ListItemAuthorBinding
 import com.dehaat.goodreads.viewmodels.AuthorViewModel
+import com.dehaat.goodreads.viewmodels.MainViewModel
 
 /**
  * Adapter to control list of authors
  */
-class AuthorAdapter(private val listener: OnClickListener?, private val dualMode: Boolean) : ListAdapter<AuthorViewModel, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
-
-    private var checkedPosition = -1
+class AuthorAdapter(private val listener: OnClickListener?,
+                    private val dualMode: Boolean,
+                    private val mainViewModel: MainViewModel) : ListAdapter<AuthorViewModel, AuthorAdapter.ViewHolder>(AuthorDiffCallback()) {
 
     interface OnClickListener {
         fun onAuthorClicked(authorId: Long)
@@ -31,7 +48,7 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), checkedPosition == position)
+        holder.bind(getItem(position), mainViewModel.checkedPosition == position && dualMode)
     }
 
     inner class ViewHolder(private val binding: ListItemAuthorBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -48,14 +65,18 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
 
             binding.clickListener = object : OnClickListener {
                 override fun onAuthorClicked(authorId: Long) {
-                    listener?.onAuthorClicked(authorId)
                     if (dualMode) {
-                        if (checkedPosition != adapterPosition) {
-                            val oldPosition = checkedPosition
-                            checkedPosition = adapterPosition
+                        mainViewModel.select(authorId)
+                        if (mainViewModel.checkedPosition != adapterPosition) {
+                            val oldPosition = mainViewModel.checkedPosition
+                            mainViewModel.checkedPosition = adapterPosition
                             notifyItemChanged(oldPosition)
-                            notifyItemChanged(checkedPosition)
+                            notifyItemChanged(mainViewModel.checkedPosition)
                         }
+                    } else {
+                        mainViewModel.select(authorId)
+                        listener?.onAuthorClicked(authorId)
+                        mainViewModel.checkedPosition = adapterPosition
                     }
                 }
             }
@@ -66,8 +87,11 @@ class AuthorAdapter(private val listener: OnClickListener?, private val dualMode
                 viewModel = authorViewModel
                 rootView.setBackgroundResource(if (selected) R.color.colorLightGrey else R.color.colorWhite)
                 executePendingBindings()
-                binding.textViewAuthorBio.post {
-                    binding.buttonReadMore.visibility = if (binding.textViewAuthorBio.lineCount > 3 && authorViewModel.isReadMoreVisible) View.VISIBLE else View.INVISIBLE
+                textViewAuthorBio.maxLines = if (authorViewModel.isReadMoreVisible) 3 else Int.MAX_VALUE
+                if (authorViewModel.isReadMoreVisible) {
+                    binding.textViewAuthorBio.post {
+                        binding.buttonReadMore.visibility = if (binding.textViewAuthorBio.lineCount > 3) View.VISIBLE else View.INVISIBLE
+                    }
                 }
             }
         }
