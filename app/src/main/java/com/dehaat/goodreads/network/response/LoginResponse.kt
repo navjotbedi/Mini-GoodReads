@@ -16,6 +16,7 @@
 
 package com.dehaat.goodreads.network.response
 
-import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-data class LoginResponse(@Json(name = "token") val token: String)
+@JsonClass(generateAdapter = true)
+data class LoginResponse(val token: String)

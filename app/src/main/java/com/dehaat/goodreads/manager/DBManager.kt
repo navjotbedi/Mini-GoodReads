@@ -43,11 +43,17 @@ class DBManager @Inject constructor(@ActivityContext private val context: Contex
         authorDao = coreDatabase.authorDao()
     }
 
-    fun fillDb(rawResponse: BooksResponse): Single<Unit> {
-        return Single.just(rawResponse).map {
+    fun clearDb(): Single<Unit> {
+        return Single.create {
             coreDatabase.clearAllTables()
+            it.onSuccess(Unit)
+        }
+    }
+
+    fun fillDb(rawResponse: BooksResponse): Single<Unit> {
+        return clearDb().map {
             val bookList = mutableListOf<Book>()
-            for (authorResponse in it.authorsResponseList) {
+            for (authorResponse in rawResponse.authorsResponseList) {
                 val authorId = authorDao.insert(Author(authorResponse.name, authorResponse.bio))
 
                 for (bookResponse in authorResponse.booksResponseList) {

@@ -16,6 +16,8 @@
 
 package com.dehaat.goodreads.utils
 
+import com.dehaat.goodreads.BuildConfig
+
 object GlobalConfig {
 
     object Core {
@@ -24,8 +26,10 @@ object GlobalConfig {
     }
 
     object Settings {
-        const val VALID_PASSWORD = "aaa"
-        const val ENABLE_LOGS = true
+        const val VALID_PASSWORD = "abc"
+        const val VALID_EMAIL = "abc@gmail.com"
+
+        val ENABLE_LOGS = BuildConfig.DEBUG
         const val CACHE_SIZE: Long = 60 * 1024 * 1024
     }
 

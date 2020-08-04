@@ -23,11 +23,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.AuthorAdapter
+import com.dehaat.goodreads.manager.DBManager
 import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_CODE
 import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_DEVELOPER
 import com.dehaat.goodreads.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -38,6 +42,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.On
 
     @Inject lateinit var preferenceManager: PreferenceManager
     @Inject lateinit var utils: Utils
+    @Inject lateinit var dbManager: DBManager
 
     override fun onAuthorClicked(authorId: Long) {
         supportFragmentManager.commit {
@@ -53,11 +58,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.On
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.logoutMenu -> {
-                preferenceManager.authToken = null
-                val intent = Intent(this, LoginActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                startActivity(intent)
+                dbManager.clearDb()
+                    .map { preferenceManager.authToken = null }
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeBy(
+                        onSuccess = { performLogout() },
+                        onError = { performLogout() }
+                    )
                 true
             }
             R.id.developerMenu -> {
@@ -70,5 +78,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.On
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun performLogout() {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 }

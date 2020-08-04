@@ -16,6 +16,7 @@
 
 package com.dehaat.goodreads.network.request
 
-import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-data class LoginRequest(@Json(name = "email") val email: String, @Json(name = "password") val password: String)
+@JsonClass(generateAdapter = true)
+data class LoginRequest(val email: String, val password: String)
