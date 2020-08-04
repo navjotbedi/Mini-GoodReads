@@ -26,6 +26,7 @@ import androidx.lifecycle.Observer
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ActivityLoginBinding
 import com.dehaat.goodreads.manager.PreferenceManager
+import com.dehaat.goodreads.utils.GlobalConfig.Settings.VALID_EMAIL
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.VALID_PASSWORD
 import com.dehaat.goodreads.utils.Utils
 import com.dehaat.goodreads.viewmodels.LoginViewModel
@@ -48,14 +49,6 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     @Inject lateinit var utils: Utils
     @Inject lateinit var preferenceManager: PreferenceManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (viewModel.isLoggedIn()) {
-            nextScreen()
-            return
-        }
-    }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -99,10 +92,15 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     private fun performLogin() {
         if (canLogin()) {
+            viewModel.enableLogin.postValue(false)
             viewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString())
                 .subscribeBy(
-                    onError = { utils.showToast(R.string.error_something_wrong) },
+                    onError = {
+                        viewModel.enableLogin.postValue(true)
+                        utils.showToast(R.string.error_something_wrong)
+                    },
                     onSuccess = {
+                        viewModel.enableLogin.postValue(true)
                         utils.showToast(R.string.toast_login_success)
                         nextScreen()
                     }
@@ -112,9 +110,11 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
     private fun canLogin(): Boolean {
         if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
-            if (binding.editTextPassword.text.toString() == VALID_PASSWORD) {
-                return true
-            } else binding.editTextPassword.error = resources.getString(R.string.error_incorrect_password)
+            if (binding.editTextEmail.text.toString() == VALID_EMAIL) {
+                if (binding.editTextPassword.text.toString() == VALID_PASSWORD) {
+                    return true
+                } else binding.editTextPassword.error = resources.getString(R.string.error_incorrect_password)
+            } else binding.editTextEmail.error = resources.getString(R.string.error_incorrect_email)
         } else binding.editTextEmail.error = resources.getString(R.string.error_invalid_email)
 
         return false

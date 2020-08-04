@@ -26,7 +26,6 @@ import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_BASE
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.CACHE_SIZE
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.ENABLE_LOGS
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -73,7 +72,6 @@ object NetworkModule {
     @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
             .add(BackendDateAdapter())
             .build()
     }

@@ -3,13 +3,17 @@
 
     <!--  Login Screen  -->
     <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_incorrect_email">Incorrect Email</string>
     <string name="error_invalid_email">Invalid Email</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="button_login">Login</string>
+
+    <!-- Menu Items -->
     <string name="menu_logout">Logout</string>
     <string name="menu_view_code">View Code</string>
     <string name="menu_about_developer">About Developer</string>
+
     <string name="button_read_more">Read More</string>
     <string name="error_something_wrong">Something went wrong!!</string>
     <string name="toast_login_success">Login Successful!!</string>

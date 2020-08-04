@@ -12,14 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".screens.LoginActivity"
-            android:screenOrientation="portrait">
+            android:name=".screens.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".screens.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".screens.MainActivity" />
     </application>
 

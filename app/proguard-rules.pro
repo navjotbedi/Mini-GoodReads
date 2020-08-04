@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Moshi
+-keepclassmembers class ** {
+  @com.squareup.moshi.FromJson *;
+  @com.squareup.moshi.ToJson *;
+}

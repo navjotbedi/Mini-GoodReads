@@ -32,10 +32,6 @@ class LoginViewModel @ViewModelInject constructor(private val preferenceManager:
         MutableLiveData<Boolean>()
     }
 
-    fun isLoggedIn(): Boolean {
-        return preferenceManager.isLoggedIn
-    }
-
     fun performLogin(email: String, password: String): Single<Unit> {
         return restApi.login(LoginRequest(email, password))
             .map { preferenceManager.authToken = it.token }
