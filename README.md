@@ -20,13 +20,13 @@ Mini Good Reads requires [Android Studio](https://developer.android.com/studio/i
 
 ### Usage
 
-Login using following credentials
-Email: abc@gmail.com
-Password: abc
+Login using following credentials<br />
+Email: abc@gmail.com<br />
+Password: abc<br />
 
-Postman API:
-Login: https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io/login
-Data: https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io/books
+Postman API:<br />
+Login: https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io/login<br />
+Data: https://485b074b-80e0-442c-88fc-db2bc45708c5.mock.pstmn.io/books<br />
 
 ### Todos
 
