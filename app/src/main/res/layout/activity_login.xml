@@ -14,24 +14,25 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/root"
         tools:context=".screens.LoginActivity">
 
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="wrap_content"
-            app:layout_constraintVertical_bias="0.25"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_email"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.25"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <EditText
@@ -41,6 +42,7 @@
             android:layout_margin="10dp"
             android:ems="10"
             android:hint="@string/hint_password"
+            android:imeOptions="actionGo"
             android:inputType="textPassword"
             app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
             app:layout_constraintEnd_toEndOf="parent"
