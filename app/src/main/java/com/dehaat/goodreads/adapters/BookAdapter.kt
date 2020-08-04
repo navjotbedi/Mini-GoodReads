@@ -24,7 +24,7 @@ class BookAdapter : ListAdapter<Book, BookAdapter.ViewHolder>(BookDiffCallback()
 
         fun bind(book: Book) {
             with(binding) {
-                viewModel.book = book
+                viewModel?.book = book
                 executePendingBindings()
             }
         }

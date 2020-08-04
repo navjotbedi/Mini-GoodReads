@@ -39,6 +39,12 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         binding = ActivityLoginBinding.bind(findViewById(android.R.id.content))
         attachTextWatcher()
         attachCallback()
