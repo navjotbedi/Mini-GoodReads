@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.dehaat.goodreads.R" />
+
+        <variable
+            name="clickListener"
+            type="com.dehaat.goodreads.adapters.AuthorAdapter.OnClickListener" />
+
+        <variable
+            name="readMoreClickListener"
+            type="com.dehaat.goodreads.adapters.AuthorAdapter.OnClickReadMore" />
+
+        <variable
+            name="viewModel"
+            type="com.dehaat.goodreads.viewmodels.AuthorViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onAuthorClicked(viewModel.author.id)}"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textViewAuthorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@{viewModel.author.name}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textViewAuthorBio"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/textViewAuthorBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="@{viewModel.author.bio}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAuthorName"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/buttonReadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_read_more"
+            android:onClick="@{() -> readMoreClickListener.onReadMoreClicked()}"
+            android:text="@string/button_read_more"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

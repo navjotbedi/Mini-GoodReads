@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/logoutMenu"
+        android:title="@string/menu_logout"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/developerMenu"
+        android:title="@string/menu_about_developer"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/viewCodeMenu"
+        android:title="@string/menu_view_code"
+        app:showAsAction="never" />
+
+</menu>
