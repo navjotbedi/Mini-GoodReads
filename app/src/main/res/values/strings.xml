@@ -7,4 +7,7 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="button_login">Login</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_view_code">View Code</string>
+    <string name="menu_about_developer">About Developer</string>
 </resources>

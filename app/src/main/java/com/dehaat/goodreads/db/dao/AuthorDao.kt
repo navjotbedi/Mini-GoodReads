@@ -7,6 +7,9 @@ import androidx.room.Query
 import com.dehaat.goodreads.db.entity.Author
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Author.TABLE_NAME
 
+/**
+ * Database operations for Author
+ */
 @Dao
 interface AuthorDao {
 

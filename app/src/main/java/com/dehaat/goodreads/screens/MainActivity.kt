@@ -10,10 +10,15 @@ import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.AuthorAdapter
 import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
+import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_CODE
+import com.dehaat.goodreads.utils.GlobalConfig.Extras.URL_DEVELOPER
 import com.dehaat.goodreads.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * Activity to hold login Author and Book fragment
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.OnClickListener {
 
@@ -37,13 +42,24 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), AuthorAdapter.On
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (item.itemId == R.id.logoutMenu) {
-            preferenceManager.authToken = null
-            val intent = Intent(this, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        return when (item.itemId) {
+            R.id.logoutMenu -> {
+                preferenceManager.authToken = null
+                val intent = Intent(this, LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                startActivity(intent)
+                true
             }
-            startActivity(intent)
-            true
-        } else super.onOptionsItemSelected(item)
+            R.id.developerMenu -> {
+                utils.openUrl(URL_DEVELOPER)
+                true
+            }
+            R.id.viewCodeMenu -> {
+                utils.openUrl(URL_CODE)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

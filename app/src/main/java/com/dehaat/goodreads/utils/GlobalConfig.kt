@@ -24,6 +24,11 @@ object GlobalConfig {
         const val URL_AUTHOR_REQUEST = "/books"
     }
 
+    object Extras {
+        const val URL_DEVELOPER = "https://www.linkedin.com/in/navjotsinghbedi/"
+        const val URL_CODE = "https://github.com/navjotbedi/Mini-GoodReads"
+    }
+
     object Preference {
         const val KEY_AUTH_TOKEN = "KEY_AUTH_TOKEN"
     }
