@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -13,6 +14,7 @@ import com.dehaat.goodreads.adapters.AuthorAdapter
 import com.dehaat.goodreads.databinding.FragmentAuthorBinding
 import com.dehaat.goodreads.utils.Utils
 import com.dehaat.goodreads.viewmodels.AuthorListViewModel
+import com.dehaat.goodreads.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -29,6 +31,7 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
     @Inject lateinit var utils: Utils
     private lateinit var binding: FragmentAuthorBinding
     private val viewModel: AuthorListViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var listener: AuthorAdapter.OnClickListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +53,12 @@ class AuthorFragment : Fragment(R.layout.fragment_author) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is AuthorAdapter.OnClickListener) {
-            listener = context
+//            listener = context
+            listener = object : AuthorAdapter.OnClickListener {
+                override fun onAuthorClicked(authorId: Long) {
+                    mainViewModel.select(authorId)
+                }
+            }
         }
     }
 

@@ -2,7 +2,6 @@ package com.dehaat.goodreads.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.EditorInfo.IME_ACTION_GO
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity

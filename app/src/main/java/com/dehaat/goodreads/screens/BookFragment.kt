@@ -3,13 +3,16 @@ package com.dehaat.goodreads.screens
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.adapters.BookAdapter
 import com.dehaat.goodreads.databinding.FragmentBookBinding
 import com.dehaat.goodreads.utils.GlobalConfig.DB.Book.COLUMN_AUTHOR_ID
 import com.dehaat.goodreads.viewmodels.BookListViewModel
+import com.dehaat.goodreads.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -25,11 +28,11 @@ class BookFragment : Fragment(R.layout.fragment_book) {
     @Inject lateinit var bookAdapter: BookAdapter
     private lateinit var binding: FragmentBookBinding
     private val viewModel: BookListViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBookBinding.bind(view)
-
         initUI()
     }
 
@@ -40,11 +43,17 @@ class BookFragment : Fragment(R.layout.fragment_book) {
             val authorId = it.getLong(COLUMN_AUTHOR_ID)
             if (authorId > 0) subscribeUi(authorId)
         }
+        mainViewModel.selected.observe(viewLifecycleOwner, Observer<Long> { subscribeUi(it) })
     }
 
     fun subscribeUi(authorId: Long) {
-        viewModel.books(authorId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(onError = {}, onSuccess = { (binding.bookList.adapter as BookAdapter).submitList(it) })
+        viewModel.books(authorId)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onError = {},
+                onSuccess = { (binding.bookList.adapter as BookAdapter).submitList(it) }
+            )
     }
 
 }
