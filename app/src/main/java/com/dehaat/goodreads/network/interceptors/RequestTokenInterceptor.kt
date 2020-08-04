@@ -9,10 +9,7 @@ class RequestTokenInterceptor(private val preferenceManager: PreferenceManager) 
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder = chain.request().newBuilder()
-        if (preferenceManager.isLoggedIn) builder.addHeader(
-            HEADER_AUTH_TOKEN,
-            preferenceManager.authToken!!
-        )
+        if (preferenceManager.isLoggedIn) builder.addHeader(HEADER_AUTH_TOKEN, preferenceManager.authToken!!)
         return chain.proceed(builder.build())
     }
 }

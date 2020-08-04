@@ -4,18 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.core.widget.addTextChangedListener
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ActivityLoginBinding
 import com.dehaat.goodreads.manager.PreferenceManager
+import com.dehaat.goodreads.utils.GlobalConfig.Settings.VALID_PASSWORD
 import com.dehaat.goodreads.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(R.layout.activity_login) {
 
-    private val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+    companion object {
+        const val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+    }
+
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
     @Inject lateinit var preferenceManager: PreferenceManager
@@ -29,22 +34,43 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             return
         }
+    }
 
-        binding = setContentView(this, R.layout.activity_login)
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
 
+        binding = ActivityLoginBinding.bind(findViewById(android.R.id.content))
+        attachTextWatcher()
+        attachCallback()
+    }
+
+    private fun attachCallback() {
         binding.callback = object : Callback {
             override fun login() {
-                if (binding.editTextEmail.text.isNotBlank()) {
-                    if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
-                        if (binding.editTextPassword.text.isNotBlank()) {
-                            loginViewModel.performLogin()
-                            preferenceManager.authToken = "aaaa"
+                if (binding.editTextEmail.text.toString().matches(emailPattern.toRegex())) {
+                    if (binding.editTextPassword.text.trim() == VALID_PASSWORD) {
+                        loginViewModel.performLogin(binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString()).subscribeBy(onError = {}, onSuccess = {
                             startActivity(Intent(binding.root.context, MainActivity::class.java))
-                        } else binding.editTextPassword.error = "Empty Password"
-                    } else binding.editTextEmail.error = "Invalid Email"
-                } else binding.editTextEmail.error = "Empty Email"
+                        })
+
+                    } else binding.editTextPassword.error = resources.getString(R.string.error_incorrect_password)
+                } else binding.editTextEmail.error = resources.getString(R.string.error_invalid_email)
             }
         }
+    }
+
+    private fun attachTextWatcher() {
+        binding.editTextEmail.addTextChangedListener(onTextChanged = { s, _, _, _ ->
+            s?.let {
+                loginViewModel.enableLogin = (it.isNotBlank() && binding.editTextPassword.text.isNotBlank())
+            }
+        })
+
+        binding.editTextPassword.addTextChangedListener(onTextChanged = { s, _, _, _ ->
+            s?.let {
+                loginViewModel.enableLogin = (it.isNotBlank() && binding.editTextEmail.text.isNotBlank())
+            }
+        })
     }
 
     interface Callback {

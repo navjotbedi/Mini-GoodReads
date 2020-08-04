@@ -10,20 +10,20 @@
 
         <variable
             name="viewModel"
-            type="com.dehaat.goodreads.db.entity.Author" />
+            type="com.dehaat.goodreads.viewmodels.AuthorViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> clickListener.onAuthorClicked(viewModel.id)}"
+        android:onClick="@{() -> clickListener.onAuthorClicked(viewModel.author.id)}"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/textViewAuthorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.name}"
+            android:text="@{viewModel.author.name}"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/textViewAuthorBio"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:text="@{viewModel.bio}"
+            android:text="@{viewModel.author.bio}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewAuthorName"

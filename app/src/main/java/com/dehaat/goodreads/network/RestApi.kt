@@ -16,7 +16,9 @@
 
 package com.dehaat.goodreads.network
 
+import com.dehaat.goodreads.network.request.LoginRequest
 import com.dehaat.goodreads.network.response.BooksResponse
+import com.dehaat.goodreads.network.response.LoginResponse
 import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_AUTHOR_REQUEST
 import com.dehaat.goodreads.utils.GlobalConfig.Endpoint.URL_LOGIN_REQUEST
 import io.reactivex.rxjava3.core.Single
@@ -26,7 +28,7 @@ import retrofit2.http.POST
 interface RestApi {
 
     @POST(URL_LOGIN_REQUEST)
-    fun login(): Single<Unit>
+    fun login(loginRequest: LoginRequest): Single<LoginResponse>
 
     @GET(URL_AUTHOR_REQUEST)
     fun getBooks(): Single<BooksResponse>

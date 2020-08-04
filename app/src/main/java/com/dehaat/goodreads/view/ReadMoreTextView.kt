@@ -1,6 +1,5 @@
 package com.dehaat.goodreads.view
 
-import android.R.style
 import android.animation.LayoutTransition
 import android.content.Context
 import android.graphics.Color
@@ -18,18 +17,18 @@ import androidx.appcompat.widget.AppCompatTextView
 class ReadMoreTextView : AppCompatTextView {
 
     private var originalText: CharSequence? = null
-    constructor(context: Context) : super(context){
+
+    constructor(context: Context) : super(context) {
         initUI()
     }
 
-    constructor(context: Context, attrs : AttributeSet) : super(context,attrs){
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         initUI()
     }
 
-    constructor(context: Context,  attrs: AttributeSet , defStyleAttr : Int) : super(context, attrs, defStyleAttr){
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         initUI()
     }
-
 
 
     private fun initUI() {
@@ -53,16 +52,10 @@ class ReadMoreTextView : AppCompatTextView {
                 return@Runnable
             }
             val lp = layoutParams as ViewGroup.MarginLayoutParams
-            val subString = text.toString().substring(
-                layout.getLineStart(0),
-                layout.getLineEnd(textLength - 1)
-            )
+            val subString = text.toString().substring(layout.getLineStart(0), layout.getLineEnd(textLength - 1))
             textLengthNew = subString.length - (moreLabel.length + 4 + lp.rightMargin / 6)
 
-            val spannableStringBuilder =
-                SpannableStringBuilder(text.subSequence(0, textLengthNew))
-                    .append("...")
-                    .append(moreLabel)
+            val spannableStringBuilder = SpannableStringBuilder(text.subSequence(0, textLengthNew)).append("...").append(moreLabel)
             val ss = SpannableString.valueOf(spannableStringBuilder)
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
@@ -75,12 +68,7 @@ class ReadMoreTextView : AppCompatTextView {
                     ds.color = moreLabelColor
                 }
             }
-            ss.setSpan(
-                clickableSpan,
-                ss.length - moreLabel.length,
-                ss.length,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+            ss.setSpan(clickableSpan, ss.length - moreLabel.length, ss.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
             val layoutTransition = LayoutTransition()
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING)

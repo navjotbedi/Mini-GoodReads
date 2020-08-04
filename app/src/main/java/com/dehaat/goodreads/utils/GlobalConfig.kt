@@ -8,6 +8,7 @@ object GlobalConfig {
     }
 
     object Settings {
+        const val VALID_PASSWORD = "aaa"
         const val ENABLE_LOGS = true
         const val CACHE_SIZE: Long = 60 * 1024 * 1024
     }
