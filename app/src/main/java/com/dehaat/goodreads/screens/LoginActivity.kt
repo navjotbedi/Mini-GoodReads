@@ -25,13 +25,13 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.dehaat.goodreads.R
 import com.dehaat.goodreads.databinding.ActivityLoginBinding
-import com.dehaat.goodreads.manager.PreferenceManager
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.VALID_EMAIL
 import com.dehaat.goodreads.utils.GlobalConfig.Settings.VALID_PASSWORD
 import com.dehaat.goodreads.utils.Utils
 import com.dehaat.goodreads.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 /**
@@ -48,11 +48,10 @@ class LoginActivity : AppCompatActivity(R.layout.activity_login) {
     private val viewModel: LoginViewModel by viewModels()
 
     @Inject lateinit var utils: Utils
-    @Inject lateinit var preferenceManager: PreferenceManager
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        binding = ActivityLoginBinding.bind(findViewById(R.id.root))
+        binding = ActivityLoginBinding.bind(root)
         attachTextWatcher()
         attachCallback()
     }
